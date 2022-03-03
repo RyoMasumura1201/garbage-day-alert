@@ -9,6 +9,7 @@ const config = {
 const client = new line.Client(config);
 exports.handler = async (event) => {
   const date = new Date();
+  console.log(date);
   const week = date.getDay();
 
   console.log(week);
@@ -26,9 +27,8 @@ exports.handler = async (event) => {
       text = "明日はプラスチック容器包装ゴミの日です!";
       break;
     case 5:
-      const tomorrow = date.setDate(date.getDate() + 1);
-      console.log(tomorrow);
-      const tomorrowDate = tomorrow.getDate();
+      date.setDate(date.getDate() + 1);
+      const tomorrowDate = date.getDate();
       console.log(tomorrowDate);
       if (1 <= tomorrowDate && tomorrowDate <= 7) {
         text = "明日は段ボールの回収日です!";
