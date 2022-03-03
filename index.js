@@ -7,23 +7,32 @@ const config = {
 };
 
 const client = new line.Client(config);
-
-const main = async () => {
-  const week = new Date().getDay();
+exports.handler = async (event) => {
+  const date = new Date();
+  const week = date.getDay();
 
   console.log(week);
 
   let text;
   switch (week) {
     case 1:
-      text = "明日は燃えるゴミの日です!";
+    case 4:
+      text = "明日は燃えるゴミ(家庭ゴミ)の日です!";
       break;
     case 2:
-      text = "明日はペットボトル、缶、びんの日です!";
+      text = "明日は缶・ビン・ペットボトルゴミの日です!";
       break;
     case 3:
-      text = "明日は資源ごみの日です!";
+      text = "明日はプラスチック容器包装ゴミの日です!";
       break;
+    case 5:
+      const tomorrow = date.setDate(date.getDate() + 1);
+      console.log(tomorrow);
+      const tomorrowDate = tomorrow.getDate();
+      console.log(tomorrowDate);
+      if (1 <= tomorrowDate && tomorrowDate <= 7) {
+        text = "明日は段ボールの回収日です!";
+      }
   }
 
   const messages = [
@@ -33,9 +42,13 @@ const main = async () => {
     },
   ];
 
+  console.log("test1");
+  console.log(text);
+  console.log("test2");
   if (text) {
     try {
       const res = await client.broadcast(messages);
+      console.log("成功");
       console.log(res);
     } catch (error) {
       console.log(`エラー: ${error.statusMessage}`);
@@ -43,5 +56,3 @@ const main = async () => {
     }
   }
 };
-
-main();
